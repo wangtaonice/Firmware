@@ -134,7 +134,7 @@ PARAM_DEFINE_FLOAT(LPE_ACC_Z, 0.02f);
  * @group Local Position Estimator
  * @unit m
  * @min 0.01
- * @max 3
+ * @max 100
  * @decimal 2
  */
 PARAM_DEFINE_FLOAT(LPE_BAR_Z, 3.0f);
@@ -246,7 +246,7 @@ PARAM_DEFINE_FLOAT(LPE_VIS_XY, 0.1f);
  * @group Local Position Estimator
  * @unit m
  * @min 0.01
- * @max 2
+ * @max 100
  * @decimal 3
  */
 PARAM_DEFINE_FLOAT(LPE_VIS_Z, 0.5f);
@@ -423,7 +423,7 @@ PARAM_DEFINE_FLOAT(LPE_LAND_VXY, 0.05f);
  * 4 : Set to true to fuse land detector
  * 5 : Set to true to publish AGL as local position down component
  * 6 : Set to true to enable flow gyro compensation
- * 7 : Not used
+ * 7 : Set to true to enable baro fusion
  *
  * default (247, no vision yaw)
  *
@@ -437,6 +437,6 @@ PARAM_DEFINE_FLOAT(LPE_LAND_VXY, 0.05f);
  * @bit 4 fuse land detector
  * @bit 5 pub agl as lpos down
  * @bit 6 flow gyro compensation
- * @bit 7 not used
+ * @bit 7 fuse baro
  */
 PARAM_DEFINE_INT32(LPE_FUSION, 247);

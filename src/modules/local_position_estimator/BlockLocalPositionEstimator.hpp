@@ -122,7 +122,7 @@ public:
 		FUSE_LAND = 1 << 4,
 		FUSE_PUB_AGL_Z = 1 << 5,
 		FUSE_FLOW_GYRO_COMP = 1 << 6,
-		FUSE_UNUSED = 1 << 7,
+		FUSE_BARO = 1 << 7,
 	};
 
 	enum sensor_t {
@@ -345,6 +345,7 @@ private:
 	// misc
 	px4_pollfd_struct_t _polls[3];
 	uint64_t _timeStamp;
+	uint64_t _timeStampLastBaro;
 	uint64_t _time_last_hist;
 	uint64_t _time_last_flow;
 	uint64_t _time_last_baro;

@@ -125,6 +125,7 @@ BlockLocalPositionEstimator::BlockLocalPositionEstimator() :
 	// misc
 	_polls(),
 	_timeStamp(hrt_absolute_time()),
+	_timeStampLastBaro(hrt_absolute_time()),
 	_time_last_hist(0),
 	_time_last_flow(0),
 	_time_last_baro(0),
@@ -285,7 +286,22 @@ void BlockLocalPositionEstimator::update()
 	// see which updates are available
 	bool flowUpdated = _sub_flow.updated();
 	bool paramsUpdated = _sub_param_update.updated();
-	bool baroUpdated = _sub_sensor.updated();
+	bool baroUpdated = false;
+
+	if ((_fusion.get() & FUSE_BARO) && _sub_sensor.updated()) {
+		int32_t baro_timestamp_relative = _sub_sensor.get().baro_timestamp_relative;
+
+		if (baro_timestamp_relative != _sub_sensor.get().RELATIVE_TIMESTAMP_INVALID) {
+			uint64_t baro_timestamp = _sub_sensor.get().timestamp + \
+						  _sub_sensor.get().baro_timestamp_relative;
+
+			if (baro_timestamp != _timeStampLastBaro) {
+				baroUpdated = true;
+				_timeStampLastBaro = baro_timestamp;
+			}
+		}
+	}
+
 	bool gpsUpdated = (_fusion.get() & FUSE_GPS) && _sub_gps.updated();
 	bool visionUpdated = (_fusion.get() & FUSE_VIS_POS) && _sub_vision_pos.updated();
 	bool mocapUpdated = _sub_mocap.updated();
